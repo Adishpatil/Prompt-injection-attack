@@ -1,2 +1,4 @@
+chromadb
 langgraph
 langchain-ollama
+ollama
