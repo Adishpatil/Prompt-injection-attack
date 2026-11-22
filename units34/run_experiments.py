@@ -13,6 +13,7 @@ import time
 import traceback
 
 from attacks import ATTACKS
+from advanced_attacks import ADVANCED_ATTACKS
 from config import RUNS
 from evaluate import evaluate, poison_status
 from kb import build_kb
@@ -31,6 +32,9 @@ def get_hooks(mode):
     if mode == "baseline":
         tools.set_gates(False)
         return {}
+    if mode == "semantic":
+        from semantic_guard import make_semantic_hooks
+        return make_semantic_hooks()
     try:
         from guard import make_hooks          # created in the mitigation step
     except ImportError:
@@ -49,16 +53,18 @@ def run_one(attack, hooks, llm=None):
 
 def main(argv=None, llm=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", default="baseline", choices=["baseline", "mitigated"])
+    ap.add_argument("--mode", default="baseline", choices=["baseline", "mitigated", "semantic"])
     ap.add_argument("--runs", type=int, default=RUNS)
-    ap.add_argument("--only", default=None, help="attack id, e.g. R2")
+    ap.add_argument("--only", default=None, help="attack id, e.g. R2 or ADV1")
+    ap.add_argument("--advanced", action="store_true", help="run advanced attack catalogue (ADV1-ADV6)")
     ap.add_argument("--tag", default="", help="suffix for output files, e.g. regexonly")
     args = ap.parse_args(argv)
 
     hooks = get_hooks(args.mode)
     os.makedirs("results", exist_ok=True)
     rows, log = [], []
-    attacks = [a for a in ATTACKS if args.only in (None, a["id"])]
+    pool = ADVANCED_ATTACKS if args.advanced else ATTACKS
+    attacks = [a for a in pool if args.only in (None, a["id"])]
 
     for atk in attacks:
         for i in range(1, args.runs + 1):
