@@ -161,7 +161,7 @@ python run_experiments.py --mode baseline --runs 3
 | `semantic_guard.py` | Phase 3 | Vector embedding similarity scanner and LangGraph guard hooks |
 | `advanced_attacks.py` | Phase 3 | Catalogue of 6 advanced evasive prompt injection attacks |
 | `test_phase3_semantic.py` | Phase 3 | Direct benchmarking script comparing Regex vs. Semantic Guard |
-| `generate_phase3_report.py`| Phase 3 | Generates Phase 3 CSV and markdown comparative analysis |
+| `generate_pdf_report.py`| Phase 3 | Generates official publication-grade technical PDF report |
 | `guard.py` | Phase 2 | Regex heuristic rules + Qwen LLM classifier |
 | `approval.py` | Phase 2 | Human-approval policy controller (deny / interactive / approve) |
 | `tools.py` | Phase 2 | Tools with ACTIONS audit logging and runtime execution gates |
@@ -179,6 +179,7 @@ python run_experiments.py --mode baseline --runs 3
 |---|---|
 | `results/phase3_comparison.csv` | Full comparative matrix (Phase 1 vs Phase 2 vs Phase 3) |
 | `results/phase3_comparison.md` | Executive summary report for Phase 3 |
+| `results/Prompt_Injection_Project_Report_Phases_1_2_3.pdf` | 📄 **Official Technical Report (PDF)** &mdash; Full publication report |
 | `results/baseline.csv` | Raw data: 14 attacks &times; 3 runs, baseline mode |
 | `results/mitigated.csv` | Raw data: 14 attacks &times; 3 runs, mitigated mode |
 | `results/mitigated_regexonly.csv` | Raw data: ablation run (regex only) |
